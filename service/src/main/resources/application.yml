@@ -1,0 +1,23 @@
+# 应用服务 WEB 访问端口
+server:
+  port=8080
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/dbexam?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#下面这些内容是为了让MyBatis映射
+#指定Mybatis的Mapper文件
+mybatis-plus:
+  #指定Mybatis的实体目录
+  type-aliases-package: com.example.exam.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+swagger:
+  enable: true
+  application-name: little-class-api
+  application-version: 1.0
+  application-description: 学习平台
+  try-host: http://localhost:8080
