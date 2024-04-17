@@ -15,7 +15,6 @@ import java.util.Map;
  * @Author: Stonffe
  * @Date: 2024/4/16 14:16
  */
-@Service
 public interface UserService extends IService<User> {
     /**
      * 登录
