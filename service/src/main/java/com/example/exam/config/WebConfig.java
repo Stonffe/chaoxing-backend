@@ -9,13 +9,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    //    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        log.info("跨域服务启动");
+//        registry.addMapping("/**")
+//                .allowedOrigins("*")
+//                .allowCredentials(true)
+//                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//                .maxAge(3600);
+//    }
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         log.info("跨域服务启动");
         registry.addMapping("/**")
-                .allowedOrigins("*")
+                .allowedOriginPatterns("*") // 或者 .allowedOrigins("https://example.com")
                 .allowCredentials(true)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .maxAge(3600);
     }
+
 }

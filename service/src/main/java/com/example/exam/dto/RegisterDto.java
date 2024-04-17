@@ -5,12 +5,13 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @Classname: loginDto
+ * @Classname: RegisterDto
  * @Author: Stonffe
- * @Date: 2024/4/17 18:48
+ * @Date: 2024/4/17 21:31
  */
 @Data
-public class LoginDto implements Serializable {
+public class RegisterDto implements Serializable {
     private String phoneNum;
+    private String username;
     private String password;
 }

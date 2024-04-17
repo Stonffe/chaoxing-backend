@@ -18,7 +18,11 @@ public enum ErrorCodeEnum {
     /**
      * 密码错误
      */
-    PASSWORD_ERROR("501","密码错误");
+    PASSWORD_ERROR("501","密码错误"),
+    /**
+     * 用户已存在
+     */
+    USER_EXISTS("500", "用户已存在");
     /**
      * 错误码
      */

@@ -1,6 +1,6 @@
 # 应用服务 WEB 访问端口
 server:
-  port=8080
+  port: 8090
 
 spring:
   datasource:
@@ -15,9 +15,10 @@ mybatis-plus:
   type-aliases-package: com.example.exam.entity
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: false
 swagger:
   enable: true
-  application-name: little-class-api
+  application-name: 教学平台
   application-version: 1.0
   application-description: 学习平台
-  try-host: http://localhost:8080
+  try-host: http://localhost:8090

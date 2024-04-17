@@ -2,6 +2,7 @@ package com.example.exam.resp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
  * @Date: 2024/4/17 18:32
  */
 @Getter
+@ToString
 public class RestResp<T> {
 
     /**
@@ -23,7 +25,7 @@ public class RestResp<T> {
      * 响应消息
      */
     @Schema(description = "响应消息")
-    private String message;
+    private String msg;
 
     /**
      * 响应数据
@@ -33,12 +35,12 @@ public class RestResp<T> {
 
     private RestResp() {
         this.code = ErrorCodeEnum.OK.getCode();
-        this.message = ErrorCodeEnum.OK.getMessage();
+        this.msg = ErrorCodeEnum.OK.getMessage();
     }
 
     private RestResp(ErrorCodeEnum errorCode) {
         this.code = errorCode.getCode();
-        this.message = errorCode.getMessage();
+        this.msg = errorCode.getMessage();
     }
 
     private RestResp(T data) {
