@@ -3,9 +3,9 @@
     <div class="container">
         <div class="wrap-container">
             <div class="title">用户登录</div>
-            <div class="input-wrap"><i class="el-icon-phone"></i><input type="text" placeholder="手机号"></div>
+            <div class="input-wrap"><i class="el-icon-phone"></i><input type="text" placeholder="手机号" v-model="phoneNum"></div>
 
-            <div class="input-wrap"><i class="el-icon-lock"></i><input type="password" placeholder="密码"></div>
+            <div class="input-wrap"><i class="el-icon-lock"></i><input type="password" placeholder="密码" v-model="password"></div>
             <div class="handleBtn" @click="handleLogin">登录</div>
             <div class="register"><router-link to="/Register">新用户注册</router-link></div>
             <p>登录即表示同意平台<a href="https://homewh.chaoxing.com/agree/privacyPolicy?appId=900001" class="private" target="_blank">《隐私政策》</a> 和

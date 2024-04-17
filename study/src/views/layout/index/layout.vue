@@ -6,7 +6,7 @@
             <div class="username">{{username}}</div>
             </router-link>
                                 <div class="inputClass">
-                <div class="input">输出邀请码
+                <div class="input">输入邀请码
                     </div>
                 </div>
         </div>
