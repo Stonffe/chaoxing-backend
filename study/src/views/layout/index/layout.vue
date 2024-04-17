@@ -2,7 +2,7 @@
   <div class="wrap">
     <div class="nav fl">
         <div class="nav-pic" to="">
-            <router-link  to="#"><img :src="url">
+            <router-link  to="#"><img src="@/assets/pic/20200729133847_jdvhc.jpg">
             <div class="username">{{username}}</div>
             </router-link>
                                 <div class="inputClass">
@@ -36,7 +36,7 @@ export default {
     }
   },
   mounted () {
-    this.url = localStorage.getItem('url')
+    // this.url = localStorage.getItem('url')
     this.username = localStorage.getItem('username')
   }
 }

@@ -3,9 +3,9 @@
     <div class="container">
         <div class="wrap-container">
             <div class="title">用户登录</div>
-            <div class="input-wrap"><i class="el-icon-phone"></i><input type="text" placeholder="手机号" v-model="data.phoneNum"></div>
+            <div class="input-wrap"><i class="el-icon-phone"></i><input type="text" placeholder="手机号" v-model="phoneNum"></div>
 
-            <div class="input-wrap"><i class="el-icon-lock"></i><input type="password" placeholder="密码" v-model="data.password"></div>
+            <div class="input-wrap"><i class="el-icon-lock"></i><input type="password" placeholder="密码" v-model="password"></div>
             <div class="handleBtn" @click="handleLogin">登录</div>
             <div class="register"><router-link to="/Register">新用户注册</router-link></div>
             <p>登录即表示同意平台<a href="https://homewh.chaoxing.com/agree/privacyPolicy?appId=900001" class="private" target="_blank">《隐私政策》</a> 和
@@ -22,10 +22,10 @@ export default {
   name: 'LoginIndex',
   data () {
     return {
-      data: {
-        phoneNum: '',
-        password: ''
-      }
+
+      phoneNum: '',
+      password: ''
+
     }
   },
   methods: {
@@ -34,20 +34,21 @@ export default {
       localStorage.setItem('url', 'http://localhost:8080/img/20200729133847_jdvhc.92f6737a.jpg')
       localStorage.setItem('username', '斗城一绝')
       localStorage.setItem('phoneNum', '1915077407')
+      console.log(this.phoneNum)
       const resultInfo = await login(
         {
           phoneNum: this.phoneNum,
           password: this.password
         }
       )
-      if (resultInfo.code === 200) {
+      if (resultInfo.code === '200') {
         localStorage.setItem('jwt', resultInfo.data.token)
-        localStorage.setItem('url', resultInfo.data.url)
+        // localStorage.setItem('url', resultInfo.data.url)
         localStorage.setItem('username', resultInfo.data.username)
         localStorage.setItem('phoneNum', this.phoneNum)
       }
-
-      this.tips(resultInfo.mgs)
+      this.tips(resultInfo.msg)
+      this.$router.push('/')
     },
     handleLogin () {
       this.login()
