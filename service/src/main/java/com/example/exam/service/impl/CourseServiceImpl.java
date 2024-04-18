@@ -24,17 +24,12 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     private CourseMapper courseMapper;
 
     @Override
-    public RestResp<List<Course>> getClass(String phoneNum, int role) {
+    public RestResp<List<Course>> getCreateClass(String phoneNum) {
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
         wrapper.eq("phoneNum", phoneNum);
-        wrapper.eq("role", role);
         List<Course> list = courseMapper.selectList(wrapper);
         return RestResp.ok(list);
     }
 
-    @Override
-    public RestResp<Void> joinClass(JoinClassDto joinClassDto) {
-//        courseMapper.insert()
-        return RestResp.ok();
-    }
+
 }

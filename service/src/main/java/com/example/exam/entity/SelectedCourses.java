@@ -8,22 +8,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Classname: AnswerRecord
+ * @Classname: SelectedCourses
  * @Author: Stonffe
- * @Date: 2024/4/17 16:12
+ * @Date: 2024/4/18 16:08
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("answer_record")
-public class AnswerRecord {
+@TableName("selected_courses")
+public class SelectedCourses {
     @TableId(type = IdType.AUTO)
-    private int answerRecordId;
-    private int userId;
-    private int questionId;
-    private char answer;
-    /**
-     * 0err 1true
-     */
-    private int isTrue;
+    private Integer id;
+    private Integer courseId;
+    private String phoneNum;
 }

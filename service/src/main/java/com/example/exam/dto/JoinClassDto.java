@@ -11,6 +11,6 @@ import java.io.Serializable;
  */
 @Data
 public class JoinClassDto implements Serializable {
-    private String key;
+    private String inviteCode;
     private String phoneNum;
 }

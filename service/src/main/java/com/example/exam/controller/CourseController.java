@@ -3,6 +3,7 @@ package com.example.exam.controller;
 import com.example.exam.entity.Course;
 import com.example.exam.resp.RestResp;
 import com.example.exam.service.CourseService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +21,10 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("/getClass/{phoneNum}/{role}")
-    public RestResp<List<Course>> getClass(@PathVariable String phoneNum, @PathVariable int role) {
-        return courseService.getClass(phoneNum, role);
+    @Operation(summary = "查询已创建课程列表")
+    @GetMapping("/getCreateClass/{phoneNum}")
+    public RestResp<List<Course>> getCreateClass(@PathVariable String phoneNum) {
+        return courseService.getCreateClass(phoneNum);
     }
 
 }

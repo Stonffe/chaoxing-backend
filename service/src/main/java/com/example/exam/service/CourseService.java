@@ -14,20 +14,12 @@ import java.util.List;
  * @Date: 2024/4/17 22:32
  */
 public interface CourseService extends IService<Course> {
-    /**
-     * 使用邀请码加入课程
-     *
-     * @param joinClassDto
-     * @return
-     */
-    RestResp<Void> joinClass(JoinClassDto joinClassDto);
 
     /**
      * 查询课程列表
      *
      * @param phoneNum
-     * @param role
      * @return
      */
-    RestResp<List<Course>> getClass(String phoneNum, int role);
+    RestResp<List<Course>> getCreateClass(String phoneNum);
 }
