@@ -13,6 +13,10 @@ import Coures from '@/views/layout/index/subindex/course.vue'
 import PersonCenter from '@/views/layout/index/subindex/PersonCenter.vue'
 // 课程详情
 import CourseDetail from '@/views/layout/courseDetail/index.vue'
+// 教师管理
+import TeachIndex from '@/views/layout/courseDetail/teach.vue'
+// 添加题目
+import AddQuestion from '@/views/layout/courseDetail/addQuestion/index.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,9 +36,12 @@ const routes = [
           { path: 'PersonCenter', component: PersonCenter }
         ]
       },
-      { path: 'CourseDetail/:name/:id', component: CourseDetail }
+      { path: 'CourseDetail/student/:id', component: CourseDetail },
+      { path: 'CourseDetail/teach/:id', component: TeachIndex }
+
     ]
-  }
+  },
+  { path: '/AddQuestion/:id', component: AddQuestion }
 ]
 
 const router = new VueRouter({

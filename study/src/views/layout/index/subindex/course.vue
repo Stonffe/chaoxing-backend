@@ -6,7 +6,7 @@
     </div>
     <ul class="main-container">
         <li class="one" v-for="item in dataList" :key="item.id">
-            <router-link :to="'/CourseDetail/' + `${item.role === 1 ? 'tearch' : 'student'}/` + `${item.id}`">
+            <router-link :to="'/CourseDetail/' + `${item.role === (isBtn === true ? 1 : 0) ? 'teach' : 'student'}/` + `${item.id}`">
             <img src="@/assets/pic/ce2acc035bc2116e4f096ac1b9ff1a05.jpg">
             <h3>{{item.name}}</h3>
             </router-link>
