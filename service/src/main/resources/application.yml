@@ -8,6 +8,10 @@ spring:
     password: root
     url: jdbc:mysql://localhost:3306/dbexam?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 800MB
+      max-request-size: 800MB
 #下面这些内容是为了让MyBatis映射
 #指定Mybatis的Mapper文件
 mybatis-plus:
@@ -22,3 +26,7 @@ swagger:
   application-version: 1.0
   application-description: 学习平台
   try-host: http://localhost:8090
+
+upload:
+  dir: D:/receive
+

@@ -1,11 +1,15 @@
 package com.example.exam.controller;
 
+import com.example.exam.dto.AnswerQuestionDto;
+import com.example.exam.dto.ResultDto;
 import com.example.exam.entity.Question;
 import com.example.exam.resp.RestResp;
 import com.example.exam.service.QuestionService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Classname: Question
@@ -36,5 +40,12 @@ public class QuestionController {
     public RestResp<Void> deleteQuestion(@PathVariable Integer questionId) {
         questionService.removeById(questionId);
         return RestResp.ok();
+    }
+
+    @Operation(summary = "答题")
+    @PostMapping("answerQuestion")
+    public RestResp<List<ResultDto>> answerQuestion(@RequestBody AnswerQuestionDto answerQuestionDto
+            , String phoneNum) {
+        return null;
     }
 }
