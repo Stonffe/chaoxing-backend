@@ -2,9 +2,6 @@ package com.example.exam.dto;
 
 import lombok.Data;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * @Classname: AnswerQuetionDto
  * @Author: Stonffe
@@ -14,5 +11,5 @@ import java.util.Map;
 public class AnswerQuestionDto {
     private String phoneNum;
     private Integer questionId;
-    private Character ans;
+    private Character answer;
 }

@@ -1,7 +1,5 @@
 package com.example.exam.controller;
 
-import com.example.exam.dto.AnswerQuestionDto;
-import com.example.exam.dto.ResultDto;
 import com.example.exam.entity.Question;
 import com.example.exam.resp.RestResp;
 import com.example.exam.service.QuestionService;
@@ -42,10 +40,10 @@ public class QuestionController {
         return RestResp.ok();
     }
 
-    @Operation(summary = "答题")
-    @PostMapping("answerQuestion")
-    public RestResp<List<ResultDto>> answerQuestion(@RequestBody AnswerQuestionDto answerQuestionDto
-            , String phoneNum) {
-        return null;
+    @Operation(summary = "发送题目")
+    @PostMapping("getQuestion/{courseListId}")
+    public RestResp<List<Question>> getQuestion(@PathVariable Integer courseListId) {
+
+        return questionService.getQuestion(courseListId);
     }
 }

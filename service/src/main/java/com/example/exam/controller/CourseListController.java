@@ -5,9 +5,7 @@ import com.example.exam.resp.RestResp;
 import com.example.exam.service.CourseListService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Classname: CourseListController
@@ -23,6 +21,13 @@ public class CourseListController {
     @PostMapping("addCourseList")
     public RestResp<Void> addCourseList(@RequestBody CourseList courseList) {
         courseListService.save(courseList);
+        return RestResp.ok();
+    }
+
+    @Operation(summary = "删除课时")
+    @DeleteMapping("deleteCourseList/{courseListId}")
+    public RestResp<Void> deleteCourseList(@PathVariable Integer courseListId) {
+        courseListService.removeById(courseListId);
         return RestResp.ok();
     }
 }

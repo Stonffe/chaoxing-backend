@@ -21,6 +21,13 @@ public class LearnRecordServiceImpl extends ServiceImpl<LearnRecordMapper, Learn
     @Autowired
     private LearnRecordMapper learnRecordMapper;
 
+    /**
+     * 查询学习记录
+     *
+     * @param phoneNum
+     * @param type
+     * @return
+     */
     @Override
     public RestResp<List<LearnRecord>> getLearnRecord(String phoneNum, int type) {
         QueryWrapper<LearnRecord> wrapper = new QueryWrapper<>();

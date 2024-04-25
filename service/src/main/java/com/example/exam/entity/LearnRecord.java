@@ -19,7 +19,8 @@ import lombok.NoArgsConstructor;
 public class LearnRecord {
     @TableId(type = IdType.AUTO)
     private int learnRecordId;
-    private int lessonId;
+    private int courseId;
+    private int courseListId;
     /**
      * 1题，0视频
      */

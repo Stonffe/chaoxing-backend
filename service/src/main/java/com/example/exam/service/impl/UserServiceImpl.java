@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @Classname: TeacherServiceImpl
+ * @Classname: UserServiceImpl
  * @Author: Stonffe
  * @Date: 2024/4/16 14:50
  */
@@ -28,34 +28,54 @@ import java.util.Objects;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Autowired
     private UserMapper userMapper;
+
+    /**
+     * 登录
+     *
+     * @param loginDto
+     * @return
+     */
     @Override
-    public RestResp<Map<String,String>> login(LoginDto loginDto) {
+    public RestResp<Map<String, String>> login(LoginDto loginDto) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("phoneNum",loginDto.getPhoneNum());
+        wrapper.eq("phoneNum", loginDto.getPhoneNum());
+        // 根据手机号查询用户信息
         User user = userMapper.selectOne(wrapper);
+        // 差不多用户
         if (Objects.isNull(user)) {
             throw new BusinessException(ErrorCodeEnum.USER_NOT_EXIST);
         }
+        // 密码不正确
         if (!user.getPassword().equals(loginDto.getPassword())) {
             throw new BusinessException(ErrorCodeEnum.PASSWORD_ERROR);
         }
+        // 作为返回数据
         HashMap<String, String> map = new HashMap<>();
+        // 用于生成jwt
         HashMap<String, Object> map1 = new HashMap<>();
-        map1.put("phoneNum",user.getPhoneNum());
+        map1.put("phoneNum", user.getPhoneNum());
         String jwt = JwtUtils.generateJwt(map1);
-        map.put("jwt",jwt);
-        map.put("username",user.getUsername());
+        map.put("jwt", jwt);
+        map.put("username", user.getUsername());
         System.out.println(RestResp.ok(map));
         return RestResp.ok(map);
     }
 
+    /**
+     * 注册用户
+     *
+     * @param registerDto
+     * @return
+     */
     @Override
     public RestResp<Void> register(RegisterDto registerDto) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("phoneNum",registerDto.getPhoneNum());
+        wrapper.eq("phoneNum", registerDto.getPhoneNum());
+        // 判断此电话是否已经被注册
         if (userMapper.selectCount(wrapper) > 0) {
             throw new BusinessException(ErrorCodeEnum.USER_EXISTS);
         }
+        // 插入用户注册信息到数据库
         User user = new User();
         user.setPassword(registerDto.getPassword());
         user.setUsername(registerDto.getUsername());
@@ -64,12 +84,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return RestResp.ok();
     }
 
+    /**
+     * 修改密码
+     *
+     * @param loginDto
+     * @return
+     */
     @Override
     public RestResp<Void> modifyPassword(LoginDto loginDto) {
         UpdateWrapper<User> wrapper = new UpdateWrapper<>();
-        wrapper.eq("phoneNum",loginDto.getPhoneNum());
-        wrapper.set("password",loginDto.getPassword());
-        userMapper.update(null,wrapper);
+        wrapper.eq("phoneNum", loginDto.getPhoneNum());
+        wrapper.set("password", loginDto.getPassword());
+        userMapper.update(null, wrapper);
         return RestResp.ok();
     }
 }

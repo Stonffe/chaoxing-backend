@@ -8,9 +8,12 @@ import com.example.exam.entity.Course;
 import com.example.exam.mapper.CourseMapper;
 import com.example.exam.resp.RestResp;
 import com.example.exam.service.CourseService;
+import com.example.exam.utils.PicStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,6 +26,12 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     @Autowired
     private CourseMapper courseMapper;
 
+    /**
+     * 查询课程列表
+     *
+     * @param phoneNum
+     * @return
+     */
     @Override
     public RestResp<List<Course>> getCreateClass(String phoneNum) {
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
@@ -31,5 +40,28 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         return RestResp.ok(list);
     }
 
-
+    /**
+     * 创建课程
+     *
+     * @param name
+     * @param phoneNum
+     * @param inviteCode
+     * @param file
+     * @return
+     */
+    @Override
+    public RestResp<Void> createCourse(String name, String phoneNum, String inviteCode, MultipartFile file) {
+        Course course = new Course();
+        try {
+            String url = PicStore.savePic(file);
+            course.setName(name);
+            course.setPhoneNum(phoneNum);
+            course.setUrl(url);
+            course.setInviteCode(inviteCode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        courseMapper.insert(course);
+        return RestResp.ok();
+    }
 }

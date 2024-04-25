@@ -29,25 +29,42 @@ public class SelectedCoursesServiceImpl extends ServiceImpl<SelectedCoursesMappe
     @Autowired
     private CourseMapper courseMapper;
 
+    /**
+     * 查询已选课程列表
+     *
+     * @param phoneNum
+     * @return
+     */
     @Override
     public RestResp<List<Course>> getJoinClass(String phoneNum) {
         QueryWrapper<SelectedCourses> wrapper = new QueryWrapper<>();
         wrapper.eq("phoneNum", phoneNum);
+        // 根据手机号查询已选课程
         List<SelectedCourses> list = mapper.selectList(wrapper);
         List<Integer> courseIdList = new ArrayList<>();
         for (SelectedCourses s : list) {
+            // 把已选课程的id封装成一个List
             courseIdList.add(s.getCourseId());
         }
+        // 批量查询整个List
         List<Course> courses = courseMapper.selectBatchIds(courseIdList);
         return RestResp.ok(courses);
     }
 
+    /**
+     * 使用邀请码加入课程
+     *
+     * @param joinClassDto
+     * @return
+     */
     @Override
     public RestResp<Void> joinClass(JoinClassDto joinClassDto) {
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
         wrapper.eq("inviteCode", joinClassDto.getInviteCode());
+        // 通过邀请码查询课程id
         Course course = courseMapper.selectOne(wrapper);
         int courseId = course.getCourseId();
+        // 将用户的信息插入到已选课程表中
         SelectedCourses courses = new SelectedCourses();
         courses.setCourseId(courseId);
         courses.setPhoneNum(joinClassDto.getPhoneNum());
