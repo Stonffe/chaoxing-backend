@@ -19,7 +19,7 @@ public class PicStore {
     private static String Picaddress = "D:/img";
 
     //    保存到数据库的路径
-    private static String localUrl = "http://localhost:8080/img/";
+    private static String localUrl = "http://localhost:8090/img/";
 
     private static String getImgUrl(String name) {
         return localUrl + name;

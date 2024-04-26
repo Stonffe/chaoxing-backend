@@ -21,4 +21,5 @@ public class CourseList {
     private Integer courseListId;
     private String title;
     private Integer courseId;
+    private String url;
 }

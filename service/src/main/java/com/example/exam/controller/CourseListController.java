@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Classname: CourseListController
  * @Author: Stonffe
@@ -22,6 +24,12 @@ public class CourseListController {
     public RestResp<Void> addCourseList(@RequestBody CourseList courseList) {
         courseListService.save(courseList);
         return RestResp.ok();
+    }
+
+    @Operation(summary = "课时列表")
+    @GetMapping("getCourseList/{courseId}")
+    public RestResp<List<CourseList>> getCourseList(@PathVariable Integer courseId) {
+        return courseListService.getCourseList(courseId);
     }
 
     @Operation(summary = "删除课时")
