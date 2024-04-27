@@ -1,6 +1,7 @@
 package com.example.exam.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.exam.vo.LearnRecordVo;
 import com.example.exam.entity.LearnRecord;
 import com.example.exam.resp.RestResp;
 
@@ -21,4 +22,21 @@ public interface LearnRecordService extends IService<LearnRecord> {
      * @return
      */
     RestResp<List<LearnRecord>> getLearnRecord(String phoneNum, int type);
+
+    /**
+     * 查询一个学生的学习情况
+     *
+     * @param courseId
+     * @param phoneNum
+     * @return
+     */
+    RestResp<LearnRecordVo> learnSituation(Integer courseId, String phoneNum);
+
+    /**
+     * 查询整个课程学生完成情况
+     *
+     * @param courseId
+     * @return
+     */
+    RestResp<List<LearnRecordVo>> allLearnSituation(Integer courseId);
 }

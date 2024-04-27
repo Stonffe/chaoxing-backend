@@ -25,7 +25,7 @@ public class LearnRecord {
      * 1题，0视频
      */
     private int type;
-    private String username;
+    private String phoneNum;
     /**
      * 1完成， 0未完成
      */

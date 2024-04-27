@@ -20,6 +20,7 @@ public class Question {
     @TableId(type = IdType.AUTO)
     private Integer questionId;
     private String title;
+    private Integer courseId;
     private Integer courseListId;
     private String optionA;
     private String optionB;

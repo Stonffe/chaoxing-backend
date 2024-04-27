@@ -41,7 +41,7 @@ public class QuestionController {
     }
 
     @Operation(summary = "发送题目")
-    @PostMapping("getQuestion/{courseListId}")
+    @GetMapping("getQuestion/{courseListId}")
     public RestResp<List<Question>> getQuestion(@PathVariable Integer courseListId) {
 
         return questionService.getQuestion(courseListId);

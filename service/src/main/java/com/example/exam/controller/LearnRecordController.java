@@ -1,5 +1,6 @@
 package com.example.exam.controller;
 
+import com.example.exam.vo.LearnRecordVo;
 import com.example.exam.entity.LearnRecord;
 import com.example.exam.resp.RestResp;
 import com.example.exam.service.LearnRecordService;
@@ -30,5 +31,18 @@ public class LearnRecordController {
     public RestResp<Void> addLearnRecord(@RequestBody LearnRecord learnRecord) {
         learnRecordService.save(learnRecord);
         return RestResp.ok();
+    }
+
+    @Operation(summary = "查询一个用户的课程学习情况")
+    @GetMapping("learnSituation/{courseId}/{phoneNum}")
+    public RestResp<LearnRecordVo> learnSituation(@PathVariable Integer courseId,
+                                                  @PathVariable String phoneNum) {
+        return learnRecordService.learnSituation(courseId, phoneNum);
+    }
+
+    @Operation(summary = "查询一个课程所有学生完成情况")
+    @GetMapping("allLearnSituation/{courseId}")
+    public RestResp<List<LearnRecordVo>> allLearnSituation(@PathVariable Integer courseId) {
+        return learnRecordService.allLearnSituation(courseId);
     }
 }
