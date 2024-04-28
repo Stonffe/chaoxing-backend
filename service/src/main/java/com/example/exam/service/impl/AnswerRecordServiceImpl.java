@@ -135,7 +135,7 @@ public class AnswerRecordServiceImpl extends ServiceImpl<AnswerRecordMapper, Ans
             // 加和
             rightNum += answerRecordMapper.selectCount(wrapper3);
         }
-        AnswerRecordVo answerRecordVo = new AnswerRecordVo(user.getUserId(), rightNum, list1.size());
+        AnswerRecordVo answerRecordVo = new AnswerRecordVo(user.getUserId(), Double.valueOf(rightNum), Double.valueOf(list1.size()));
         return RestResp.ok(answerRecordVo);
     }
 
@@ -167,7 +167,7 @@ public class AnswerRecordServiceImpl extends ServiceImpl<AnswerRecordMapper, Ans
             // 加和
             rightNum += answerRecordMapper.selectCount(wrapper3);
         }
-        AnswerRecordVo answerRecordVo = new AnswerRecordVo(user.getUserId(), rightNum, list1.size());
+        AnswerRecordVo answerRecordVo = new AnswerRecordVo(user.getUserId(), Double.valueOf(rightNum), Double.valueOf(list1.size()));
         return RestResp.ok(answerRecordVo);
     }
 
@@ -206,7 +206,7 @@ public class AnswerRecordServiceImpl extends ServiceImpl<AnswerRecordMapper, Ans
                 // 加和
                 rightNum += answerRecordMapper.selectCount(wrapper3);
             }
-            AnswerRecordVo answerRecordVo = new AnswerRecordVo(user.getUserId(), rightNum, list1.size());
+            AnswerRecordVo answerRecordVo = new AnswerRecordVo(user.getUserId(), Double.valueOf(rightNum), Double.valueOf(list1.size()));
             res.add(answerRecordVo);
         }
         return RestResp.ok(res);

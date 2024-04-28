@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.exam.dto.JoinClassDto;
 import com.example.exam.entity.Course;
 import com.example.exam.entity.SelectedCourses;
+import com.example.exam.entity.User;
 import com.example.exam.mapper.CourseMapper;
 import com.example.exam.mapper.SelectedCoursesMapper;
+import com.example.exam.mapper.UserMapper;
 import com.example.exam.resp.RestResp;
 import com.example.exam.service.SelectedCoursesService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Classname: SelectedCoursesServiceImpl
@@ -28,6 +31,8 @@ public class SelectedCoursesServiceImpl extends ServiceImpl<SelectedCoursesMappe
     private SelectedCoursesMapper mapper;
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 查询已选课程列表
@@ -70,5 +75,29 @@ public class SelectedCoursesServiceImpl extends ServiceImpl<SelectedCoursesMappe
         courses.setPhoneNum(joinClassDto.getPhoneNum());
         mapper.insert(courses);
         return RestResp.ok();
+    }
+
+    /**
+     * 根据课程id查询选课学生
+     *
+     * @param courseId
+     * @return
+     */
+    @Override
+    public RestResp<List<User>> getUserByCourseId(Integer courseId) {
+        // 先根据课程id查询选课表里面的所有phoneNum
+        QueryWrapper<SelectedCourses> wrapper = new QueryWrapper<>();
+        wrapper.eq("courseId", courseId);
+        List<SelectedCourses> selectedCourses = mapper.selectList(wrapper);
+        List<String> phoneNumList = selectedCourses.stream()
+                .map(SelectedCourses::getPhoneNum).collect(Collectors.toList());
+        // 再根据phoneNum从user表里面查询user
+        List<User> users = new ArrayList<>();
+        for (String phoneNum : phoneNumList) {
+            QueryWrapper<User> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("phoneNum", phoneNum);
+            users.add(userMapper.selectOne(wrapper1));
+        }
+        return RestResp.ok(users);
     }
 }

@@ -18,9 +18,9 @@ public class LearnRecordVo {
     /**
      * 以学习数
      */
-    private Integer learnedNum;
+    private Double learnedNum;
     /**
      * 课程数
      */
-    private Integer numOfCourse;
+    private Double numOfCourse;
 }

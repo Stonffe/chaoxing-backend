@@ -1,5 +1,6 @@
 package com.example.exam.controller;
 
+import com.example.exam.dto.LearnRecordDto;
 import com.example.exam.vo.LearnRecordVo;
 import com.example.exam.entity.LearnRecord;
 import com.example.exam.resp.RestResp;
@@ -21,16 +22,15 @@ public class LearnRecordController {
     private LearnRecordService learnRecordService;
 
     @Operation(summary = "查询学习记录")
-    @GetMapping("/getLearnRecord/{phoneNum}/{type}")
-    public RestResp<List<LearnRecord>> getLearnRecord(@PathVariable String phoneNum, @PathVariable int type) {
-        return learnRecordService.getLearnRecord(phoneNum, type);
+    @PostMapping("/getLearnRecord")
+    public RestResp<List<LearnRecord>> getLearnRecord(@RequestBody LearnRecordDto learnRecordDto) {
+        return learnRecordService.getLearnRecord(learnRecordDto);
     }
 
     @Operation(summary = "添加学习记录")
     @PostMapping("addLearnRecord")
     public RestResp<Void> addLearnRecord(@RequestBody LearnRecord learnRecord) {
-        learnRecordService.save(learnRecord);
-        return RestResp.ok();
+        return learnRecordService.addLearnRecord(learnRecord);
     }
 
     @Operation(summary = "查询一个用户的课程学习情况")
@@ -44,5 +44,12 @@ public class LearnRecordController {
     @GetMapping("allLearnSituation/{courseId}")
     public RestResp<List<LearnRecordVo>> allLearnSituation(@PathVariable Integer courseId) {
         return learnRecordService.allLearnSituation(courseId);
+    }
+
+    @Operation(summary = "查询视频观看数量情况")
+    @GetMapping("videoSituation/{courseId}/{phoneNum}")
+    public RestResp<LearnRecordVo> videoSituation(@PathVariable Integer courseId,
+                                                  @PathVariable String phoneNum) {
+        return learnRecordService.videoSituation(courseId, phoneNum);
     }
 }

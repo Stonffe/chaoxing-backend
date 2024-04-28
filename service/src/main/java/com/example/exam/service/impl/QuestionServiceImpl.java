@@ -22,7 +22,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     private QuestionMapper questionMapper;
 
     /**
-     * 发送整个题目的信息，前端判断对错情况
+     * 发送整个题目的信息
      *
      * @param courseListId
      * @return

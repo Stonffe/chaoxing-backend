@@ -2,6 +2,7 @@ package com.example.exam.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.exam.dto.LearnRecordDto;
 import com.example.exam.entity.SelectedCourses;
 import com.example.exam.entity.User;
 import com.example.exam.mapper.SelectedCoursesMapper;
@@ -39,15 +40,15 @@ public class LearnRecordServiceImpl extends ServiceImpl<LearnRecordMapper, Learn
     /**
      * 查询学习记录
      *
-     * @param phoneNum
-     * @param type
+     * @param learnRecordDto
      * @return
      */
     @Override
-    public RestResp<List<LearnRecord>> getLearnRecord(String phoneNum, int type) {
+    public RestResp<List<LearnRecord>> getLearnRecord(LearnRecordDto learnRecordDto) {
         QueryWrapper<LearnRecord> wrapper = new QueryWrapper<>();
-        wrapper.eq("phoneNum", phoneNum);
-        wrapper.eq("type", type);
+        wrapper.eq("phoneNum", learnRecordDto.getPhoneNum());
+        wrapper.eq("type", learnRecordDto.getType());
+        wrapper.eq("courseId", learnRecordDto.getCourseId());
         List<LearnRecord> list = learnRecordMapper.selectList(wrapper);
         return RestResp.ok(list);
     }
@@ -79,7 +80,7 @@ public class LearnRecordServiceImpl extends ServiceImpl<LearnRecordMapper, Learn
         userQueryWrapper.eq("phoneNum", phoneNum);
         User user = userMapper.selectOne(userQueryWrapper);
         // 封装成vo对象返回
-        LearnRecordVo learnRecordVo = new LearnRecordVo(user.getUserId(), learnedNum, numOfCourse);
+        LearnRecordVo learnRecordVo = new LearnRecordVo(user.getUserId(), Double.valueOf(learnedNum), Double.valueOf(numOfCourse));
         return learnRecordVo;
     }
 
@@ -103,5 +104,52 @@ public class LearnRecordServiceImpl extends ServiceImpl<LearnRecordMapper, Learn
             learnRecords.add(selectOneSituation(courseId, phoneNum));
         }
         return RestResp.ok(learnRecords);
+    }
+
+    /**
+     * 添加学习记录
+     *
+     * @param learnRecord
+     * @return
+     */
+    @Override
+    public RestResp<Void> addLearnRecord(LearnRecord learnRecord) {
+        QueryWrapper<LearnRecord> wrapper = new QueryWrapper<>();
+        wrapper.eq("phoneNum", learnRecord.getPhoneNum());
+        wrapper.eq("type", learnRecord.getType());
+        wrapper.eq("courseListId", learnRecord.getCourseListId());
+        wrapper.eq("courseId", learnRecord.getCourseId());
+        LearnRecord one = learnRecordMapper.selectOne(wrapper);
+        if (one == null) learnRecordMapper.insert(learnRecord);
+        return RestResp.ok();
+    }
+
+    /**
+     * 查询视频观看数量情况
+     *
+     * @param courseId
+     * @param phoneNum
+     * @return
+     */
+    @Override
+    public RestResp<LearnRecordVo> videoSituation(Integer courseId, String phoneNum) {
+        // 根据课程id查询有多少个课时
+        QueryWrapper<Course> courseQueryWrapper = new QueryWrapper<>();
+        courseQueryWrapper.eq("courseId", courseId);
+        Integer numOfCourse = courseMapper.selectCount(courseQueryWrapper);
+        // 从学习记录表里面查询用户有多少个学习记录
+        QueryWrapper<LearnRecord> wrapper = new QueryWrapper<>();
+        wrapper.eq("courseId", courseId)
+                .eq("phoneNum", phoneNum)
+                // type 0 为视频
+                .eq("type", 0);
+        Integer learnedNum = learnRecordMapper.selectCount(wrapper);
+        // 查询用户id
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("phoneNum", phoneNum);
+        User user = userMapper.selectOne(userQueryWrapper);
+        // 封装成vo对象返回
+        LearnRecordVo learnRecordVo = new LearnRecordVo(user.getUserId(), Double.valueOf(learnedNum), Double.valueOf(numOfCourse));
+        return RestResp.ok(learnRecordVo);
     }
 }

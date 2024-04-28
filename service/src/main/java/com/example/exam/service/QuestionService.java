@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface QuestionService extends IService<Question> {
     /**
-     * 发送整个题目的信息，前端判断对错情况
+     * 发送整个题目的信息
      *
      * @param courseListId
      * @return

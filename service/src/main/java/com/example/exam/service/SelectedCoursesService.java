@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.exam.dto.JoinClassDto;
 import com.example.exam.entity.Course;
 import com.example.exam.entity.SelectedCourses;
+import com.example.exam.entity.User;
 import com.example.exam.resp.RestResp;
 
 import java.util.List;
@@ -30,4 +31,12 @@ public interface SelectedCoursesService extends IService<SelectedCourses> {
      * @return
      */
     RestResp<Void> joinClass(JoinClassDto joinClassDto);
+
+    /**
+     * 根据课程id查询选课学生
+     *
+     * @param courseId
+     * @return
+     */
+    RestResp<List<User>> getUserByCourseId(Integer courseId);
 }

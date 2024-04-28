@@ -18,9 +18,9 @@ public class AnswerRecordVo {
     /**
      * 正确数
      */
-    private Integer rightNum;
+    private Double rightNum;
     /**
      * 问题数
      */
-    private Integer numOfQuestion;
+    private Double numOfQuestion;
 }

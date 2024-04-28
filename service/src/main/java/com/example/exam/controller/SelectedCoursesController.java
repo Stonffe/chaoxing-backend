@@ -3,6 +3,7 @@ package com.example.exam.controller;
 import com.example.exam.dto.JoinClassDto;
 import com.example.exam.entity.Course;
 import com.example.exam.entity.SelectedCourses;
+import com.example.exam.entity.User;
 import com.example.exam.resp.RestResp;
 import com.example.exam.service.SelectedCoursesService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,5 +34,11 @@ public class SelectedCoursesController {
     @GetMapping("/getJoinClass/{phoneNum}")
     public RestResp<List<Course>> getJoinClass(@PathVariable String phoneNum) {
         return service.getJoinClass(phoneNum);
+    }
+
+    @Operation(summary = "根据课程id查询选课学生")
+    @GetMapping("getUserByCourseId/{courseId}")
+    public RestResp<List<User>> getUserByCourseId(@PathVariable Integer courseId) {
+        return service.getUserByCourseId(courseId);
     }
 }
