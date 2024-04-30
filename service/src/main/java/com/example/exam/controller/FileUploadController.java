@@ -4,6 +4,7 @@ import com.example.exam.entity.CourseList;
 import com.example.exam.resp.ErrorCodeEnum;
 import com.example.exam.resp.RestResp;
 import com.example.exam.service.CourseListService;
+import com.example.exam.utils.PicStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,27 +30,17 @@ public class FileUploadController {
     @Autowired
     private CourseListService courseListService;
 
-    @PostMapping("/upload/{title}/{courseId}")
-    public RestResp<Void> handleFileUpload(@RequestParam("file") MultipartFile file,
-                                           @PathVariable String title,
-                                           @PathVariable int courseId) {
-        if (file.isEmpty()) {
-            return RestResp.fail(ErrorCodeEnum.FILE_NOT_EXISTS);
-        }
-        try {
-            String fileName = file.getOriginalFilename();
-            String url = base + fileName;
-            File destFile = new File(uploadDir + File.separator + fileName);
-            file.transferTo(destFile);
-            CourseList courseList = new CourseList();
-            courseList.setTitle(title);
-            courseList.setUrl(url);
-            courseList.setCourseId(courseId);
-            courseListService.save(courseList);
-            return RestResp.ok();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return RestResp.fail(ErrorCodeEnum.FILE_NOT_EXISTS);
-        }
+    @PostMapping("/upload")
+    public RestResp<Void> handleFileUpload(@RequestParam MultipartFile file,
+                                           @RequestParam String title,
+                                           @RequestParam int courseId) throws Exception {
+        if (title.length() == 0) return RestResp.fail("500", "未输入标题");
+        String url = PicStore.savePic(file);
+        CourseList courseList = new CourseList();
+        courseList.setTitle(title);
+        courseList.setUrl(url);
+        courseList.setCourseId(courseId);
+        courseListService.save(courseList);
+        return RestResp.ok();
     }
 }

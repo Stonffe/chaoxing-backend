@@ -34,6 +34,7 @@ public class SelectedCoursesServiceImpl extends ServiceImpl<SelectedCoursesMappe
     @Autowired
     private UserMapper userMapper;
 
+
     /**
      * 查询已选课程列表
      *
@@ -46,6 +47,8 @@ public class SelectedCoursesServiceImpl extends ServiceImpl<SelectedCoursesMappe
         wrapper.eq("phoneNum", phoneNum);
         // 根据手机号查询已选课程
         List<SelectedCourses> list = mapper.selectList(wrapper);
+        // 没选课程
+        if (list.size() == 0) return RestResp.ok(new ArrayList<>());
         List<Integer> courseIdList = new ArrayList<>();
         for (SelectedCourses s : list) {
             // 把已选课程的id封装成一个List
@@ -64,10 +67,16 @@ public class SelectedCoursesServiceImpl extends ServiceImpl<SelectedCoursesMappe
      */
     @Override
     public RestResp<Void> joinClass(JoinClassDto joinClassDto) {
+        if (joinClassDto.getInviteCode() == null || joinClassDto.getInviteCode().length() == 0) {
+            return RestResp.fail("500", "邀请码为空");
+        }
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
         wrapper.eq("inviteCode", joinClassDto.getInviteCode());
         // 通过邀请码查询课程id
         Course course = courseMapper.selectOne(wrapper);
+        if (course == null) {
+            return RestResp.fail("500", "请检查邀请码是否错误");
+        }
         int courseId = course.getCourseId();
         // 将用户的信息插入到已选课程表中
         SelectedCourses courses = new SelectedCourses();
@@ -76,19 +85,20 @@ public class SelectedCoursesServiceImpl extends ServiceImpl<SelectedCoursesMappe
         mapper.insert(courses);
         return RestResp.ok();
     }
-
     /**
      * 根据课程id查询选课学生
-     *
      * @param courseId
      * @return
      */
     @Override
     public RestResp<List<User>> getUserByCourseId(Integer courseId) {
         // 先根据课程id查询选课表里面的所有phoneNum
+        if (courseId == null) return RestResp.fail("500", "课程id未输入");
         QueryWrapper<SelectedCourses> wrapper = new QueryWrapper<>();
         wrapper.eq("courseId", courseId);
         List<SelectedCourses> selectedCourses = mapper.selectList(wrapper);
+        // 没人选课
+        if (selectedCourses.size() == 0) return RestResp.ok(new ArrayList<>());
         List<String> phoneNumList = selectedCourses.stream()
                 .map(SelectedCourses::getPhoneNum).collect(Collectors.toList());
         // 再根据phoneNum从user表里面查询user
@@ -100,4 +110,5 @@ public class SelectedCoursesServiceImpl extends ServiceImpl<SelectedCoursesMappe
         }
         return RestResp.ok(users);
     }
+
 }

@@ -41,13 +41,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         wrapper.eq("phoneNum", loginDto.getPhoneNum());
         // 根据手机号查询用户信息
         User user = userMapper.selectOne(wrapper);
-        // 差不多用户
+        // 用户不存在
         if (Objects.isNull(user)) {
-            throw new BusinessException(ErrorCodeEnum.USER_NOT_EXIST);
+            return RestResp.fail("500", "用户不存在");
         }
         // 密码不正确
         if (!user.getPassword().equals(loginDto.getPassword())) {
-            throw new BusinessException(ErrorCodeEnum.PASSWORD_ERROR);
+            HashMap<String, String> map = new HashMap<>();
+            map.put("jwt", "error");
+            map.put("username", user.getUsername());
+            System.out.println(RestResp.ok(map));
+            return RestResp.ok(map);
         }
         // 作为返回数据
         HashMap<String, String> map = new HashMap<>();
@@ -73,7 +77,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         wrapper.eq("phoneNum", registerDto.getPhoneNum());
         // 判断此电话是否已经被注册
         if (userMapper.selectCount(wrapper) > 0) {
-            throw new BusinessException(ErrorCodeEnum.USER_EXISTS);
+            return RestResp.fail("500", "账号存在");
         }
         // 插入用户注册信息到数据库
         User user = new User();
@@ -93,7 +97,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public RestResp<Void> modifyPassword(LoginDto loginDto) {
         UpdateWrapper<User> wrapper = new UpdateWrapper<>();
+        if (loginDto.getPhoneNum() == null || loginDto.getPhoneNum().length() == 0) {
+            return RestResp.fail("500", "电话号码为空");
+        }
         wrapper.eq("phoneNum", loginDto.getPhoneNum());
+        if (loginDto.getPassword() == null || loginDto.getPassword().length() == 0) {
+            return RestResp.fail("500", "密码为空");
+        }
         wrapper.set("password", loginDto.getPassword());
         userMapper.update(null, wrapper);
         return RestResp.ok();

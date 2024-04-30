@@ -22,15 +22,13 @@ public class QuestionController {
     @Operation(summary = "添加题目")
     @PostMapping("addQuestion")
     public RestResp<Void> addQuestion(@RequestBody Question question) {
-        questionService.save(question);
-        return RestResp.ok();
+        return questionService.addQuestion(question);
     }
 
     @Operation(summary = "更新题目")
     @PostMapping("updateQuestion")
     public RestResp<Void> updateQuestion(@RequestBody Question question) {
-        questionService.updateById(question);
-        return RestResp.ok();
+        return questionService.updateQuestion(question);
     }
 
     @Operation(summary = "删除题目")

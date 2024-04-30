@@ -21,4 +21,8 @@ public interface QuestionService extends IService<Question> {
      * @return
      */
     RestResp<List<Question>> getQuestion(Integer courseListId);
+
+    RestResp<Void> addQuestion(Question question);
+
+    RestResp<Void> updateQuestion(Question question);
 }

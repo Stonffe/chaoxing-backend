@@ -3,15 +3,9 @@ package com.example.exam.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.exam.dto.LearnRecordDto;
-import com.example.exam.entity.SelectedCourses;
-import com.example.exam.entity.User;
-import com.example.exam.mapper.SelectedCoursesMapper;
-import com.example.exam.mapper.UserMapper;
+import com.example.exam.entity.*;
+import com.example.exam.mapper.*;
 import com.example.exam.vo.LearnRecordVo;
-import com.example.exam.entity.Course;
-import com.example.exam.entity.LearnRecord;
-import com.example.exam.mapper.CourseMapper;
-import com.example.exam.mapper.LearnRecordMapper;
 import com.example.exam.resp.RestResp;
 import com.example.exam.service.LearnRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +25,7 @@ public class LearnRecordServiceImpl extends ServiceImpl<LearnRecordMapper, Learn
     @Autowired
     private LearnRecordMapper learnRecordMapper;
     @Autowired
-    private CourseMapper courseMapper;
+    private CourseListMapper courseListMapper;
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -67,9 +61,9 @@ public class LearnRecordServiceImpl extends ServiceImpl<LearnRecordMapper, Learn
 
     private LearnRecordVo selectOneSituation(Integer courseId, String phoneNum) {
         // 根据课程id查询有多少个课时
-        QueryWrapper<Course> courseQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<CourseList> courseQueryWrapper = new QueryWrapper<>();
         courseQueryWrapper.eq("courseId", courseId);
-        Integer numOfCourse = courseMapper.selectCount(courseQueryWrapper);
+        Integer numOfCourse = courseListMapper.selectCount(courseQueryWrapper);
         // 从学习记录表里面查询用户有多少个学习记录
         QueryWrapper<LearnRecord> wrapper = new QueryWrapper<>();
         wrapper.eq("courseId", courseId)
@@ -134,9 +128,10 @@ public class LearnRecordServiceImpl extends ServiceImpl<LearnRecordMapper, Learn
     @Override
     public RestResp<LearnRecordVo> videoSituation(Integer courseId, String phoneNum) {
         // 根据课程id查询有多少个课时
-        QueryWrapper<Course> courseQueryWrapper = new QueryWrapper<>();
-        courseQueryWrapper.eq("courseId", courseId);
-        Integer numOfCourse = courseMapper.selectCount(courseQueryWrapper);
+        QueryWrapper<CourseList> courseQueryWrapper = new QueryWrapper<>();
+        courseQueryWrapper.eq("courseId", courseId)
+                .last("and url is not null");
+        Integer numOfCourse = courseListMapper.selectCount(courseQueryWrapper);
         // 从学习记录表里面查询用户有多少个学习记录
         QueryWrapper<LearnRecord> wrapper = new QueryWrapper<>();
         wrapper.eq("courseId", courseId)

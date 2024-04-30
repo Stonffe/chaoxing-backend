@@ -10,6 +10,10 @@ import lombok.Data;
 @Data
 public class GradeVo {
     private Integer userId;
+    private String userName;
     private Double grade;
     private Integer rank;
+    private Integer people;
+    private AnswerRecordVo answerRecordVo;
+    private LearnRecordVo learnRecordVo;
 }

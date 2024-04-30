@@ -22,6 +22,7 @@ public class CourseListController {
     @Operation(summary = "添加课时")
     @PostMapping("addCourseList")
     public RestResp<Void> addCourseList(@RequestBody CourseList courseList) {
+        if (courseList.getTitle() == null || courseList.getTitle().length() == 0) return RestResp.fail("500", "未输入");
         courseListService.save(courseList);
         return RestResp.ok();
     }

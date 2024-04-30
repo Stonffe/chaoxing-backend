@@ -34,4 +34,32 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         List<Question> list = questionMapper.selectList(wrapper);
         return RestResp.ok(list);
     }
+
+    @Override
+    public RestResp<Void> addQuestion(Question question) {
+        if (question.getTitle().length() == 0) return RestResp.fail("500", "请输入题目");
+        if (question.getKind() == 1) {
+            if (question.getOptionA().length() == 0 || question.getOptionB().length() == 0
+                    || question.getOptionC().length() == 0 || question.getOptionD().length() == 0) {
+                return RestResp.fail("500", "请输入完整答案");
+            }
+        }
+        if (question.getAnswer() == null) return RestResp.fail("500", "未输入答案");
+        questionMapper.insert(question);
+        return RestResp.ok();
+    }
+
+    @Override
+    public RestResp<Void> updateQuestion(Question question) {
+        if (question.getTitle().length() == 0) return RestResp.fail("500", "请输入题目");
+        if (question.getKind() == 1) {
+            if (question.getOptionA().length() == 0 || question.getOptionB().length() == 0
+                    || question.getOptionC().length() == 0 || question.getOptionD().length() == 0) {
+                return RestResp.fail("500", "请输入完整答案");
+            }
+        }
+        if (question.getAnswer() == null) return RestResp.fail("500", "未输入答案");
+        questionMapper.update(question, null);
+        return RestResp.ok();
+    }
 }

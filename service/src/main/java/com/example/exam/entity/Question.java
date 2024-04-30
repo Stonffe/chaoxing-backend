@@ -29,7 +29,7 @@ public class Question {
     /**
      * 1 正确 0 错误
      */
-    private char answer;
+    private Character answer;
     /**
      * 判断选择还是判断 int类型 1 选择 0判断
      */

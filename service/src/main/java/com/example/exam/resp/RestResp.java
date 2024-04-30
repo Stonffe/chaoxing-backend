@@ -38,6 +38,11 @@ public class RestResp<T> {
         this.msg = ErrorCodeEnum.OK.getMessage();
     }
 
+    private RestResp(String code, String message) {
+        this.code = code;
+        this.msg = message;
+    }
+
     private RestResp(ErrorCodeEnum errorCode) {
         this.code = errorCode.getCode();
         this.msg = errorCode.getMessage();
@@ -69,6 +74,12 @@ public class RestResp<T> {
         return new RestResp<>(errorCode);
     }
 
+    /**
+     * 业务处理失败,自定义返回
+     */
+    public static <T> RestResp<T> fail(String code, String message) {
+        return new RestResp<>(code, message);
+    }
 
     /**
      * 判断是否成功
